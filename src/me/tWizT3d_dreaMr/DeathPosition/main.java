@@ -78,10 +78,10 @@ public class main extends JavaPlugin implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
   public void onPlayerDeathLowest(PlayerDeathEvent event) {
-    String deathMessage = event.getDeathMessage();
-    if (deathMessage == null)
-      return; 
-    Player player = event.getEntity();
+	    String deathMessage = event.getDeathMessage();
+	    if (deathMessage == null)
+	      return; 
+    Player player = (Player) event.getEntity();
 
     int i2=getConfig().getInt("tWiz.NumberOfDeaths");
     for(int i=i2; i>=1;i--) {
@@ -90,11 +90,15 @@ public class main extends JavaPlugin implements Listener {
     	    getlocationsconfig().set(player.getUniqueId() + "-dp1.x", player.getLocation().getX());
     	    getlocationsconfig().set(player.getUniqueId() + "-dp1.y", player.getLocation().getY());
     	    getlocationsconfig().set(player.getUniqueId() + "-dp1.z", player.getLocation().getZ());
+    	    getlocationsconfig().set(player.getUniqueId() + "-dp1.cause",player.getLastDamageCause().getCause().toString());
     	}
     	else if(getlocationsconfig().get((player.getUniqueId()) + "-dp"+(i-1)+".x")!=null) {
     		getlocationsconfig().set(player.getUniqueId() + "-dp"+i+".x",getlocationsconfig().get((player.getUniqueId()) + "-dp"+(i-1)+".x"));
     	    getlocationsconfig().set(player.getUniqueId() + "-dp"+i+".y",getlocationsconfig().get((player.getUniqueId()) + "-dp"+(i-1)+".y"));
     	    getlocationsconfig().set(player.getUniqueId() + "-dp"+i+".z",getlocationsconfig().get((player.getUniqueId()) + "-dp"+(i-1)+".z"));
+    	    if(getlocationsconfig().getString(player.getUniqueId() + "-dp"+(i-1)+".cause")!=null) {
+    	    	getlocationsconfig().set(player.getUniqueId() + "-dp"+i+".cause",getlocationsconfig().get((player.getUniqueId()) + "-dp"+(i-1)+".cause"));
+    	    }
     	}
     		
     }
@@ -116,6 +120,7 @@ public class main extends JavaPlugin implements Listener {
         double X =0;
         double Y =0;
         double Z =0;
+        String How="";
         
         int i2=getConfig().getInt("tWiz.NumberOfDeaths");
 
@@ -124,13 +129,16 @@ public class main extends JavaPlugin implements Listener {
         	    X=getlocationsconfig().getDouble(player.getUniqueId() + "-dp"+i+".x");
         	    Y=getlocationsconfig().getDouble(player.getUniqueId() + "-dp"+i+".y");
         	    Z=getlocationsconfig().getDouble(player.getUniqueId() + "-dp"+i+".z");
+
+        	    How=getlocationsconfig().getString(player.getUniqueId() + "-dp"+i+".cause");
         	    if(i>1)
         	    	player.sendMessage(ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "DP"+ ChatColor.DARK_AQUA + "]" + ChatColor.WHITE + " Death Point "+i+" times ago");
         	    else
             	    player.sendMessage(ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "DP"+ ChatColor.DARK_AQUA + "]" + ChatColor.WHITE + " Death Point "+i+" time ago");
-        	    
-        	    	
-        	  	player.sendMessage(ChatColor.GRAY+"X: " + Math.round(X)+", Y: " + Math.round(Y)+", Z: " + Math.round(Z));
+        	    player.sendMessage(ChatColor.GRAY+"X: " + Math.round(X)+", Y: " + Math.round(Y)+", Z: " + Math.round(Z));
+        	    if(getlocationsconfig().getString(player.getUniqueId() + "-dp"+i+".cause")!=null) {
+        	    	player.sendMessage(ChatColor.GRAY+"Cause of death "+ChatColor.AQUA+How);
+        	    }
         }
         }
         return true;
