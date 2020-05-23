@@ -1,0 +1,10 @@
+main: me.tWizT3d_dreaMr.DeathPosition.main
+name: DeathPosition
+version: 1.2
+author: Vinpin Amended By tWiz
+description: DP plugin
+commands:
+  dp:
+    description: Checks Death Position
+    usage: /dp
+    permission: dp.dp
