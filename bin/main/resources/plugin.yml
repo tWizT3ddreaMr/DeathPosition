@@ -1,6 +1,6 @@
 main: me.tWizT3d_dreaMr.DeathPosition.main
 name: DeathPosition
-version: 1.4.3
+version: 1.3
 author: Vinpin Amended By tWiz
 description: DP plugin
 commands:
@@ -8,4 +8,3 @@ commands:
     description: Checks Death Position
     usage: /dp
     permission: dp.dp
-api-version: 1.15
