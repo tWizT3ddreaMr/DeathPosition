@@ -10,10 +10,9 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
-@SuppressWarnings("restriction")
 public class ItemDecoder {
 
 	private static volatile Map<ItemStack, String> itemstackSerialized = new HashMap<ItemStack, String>();
@@ -43,7 +42,7 @@ public class ItemDecoder {
 		} catch (Exception localException) {
 			localException.printStackTrace();
 		}
-		String string = Base64.encode(localByteArrayOutputStream.toByteArray());
+		String string = Base64Coder.encodeString(localByteArrayOutputStream.toString());
 		itemstackSerialized.put(paramItemStack, string);
 		return string;
 	}
@@ -55,7 +54,7 @@ public class ItemDecoder {
 		}
 		ByteArrayInputStream localByteArrayInputStream = null;
 		try {
-			localByteArrayInputStream = new ByteArrayInputStream(Base64.decode(paramString));
+			localByteArrayInputStream = new ByteArrayInputStream(Base64Coder.decode(paramString));
 		} catch (Exception localBase64DecodingException) {
 		}
 		Class<?> localClass1 = getNMSClass("NBTTagCompound");
